@@ -22,6 +22,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <form method="POST" action="{% url 'your-view-name' %}">
+      {% csrf_token %}
+      <!-- Your form fields go here -->
+      <input type="submit" value="Submit">
+  </form>
+  
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
