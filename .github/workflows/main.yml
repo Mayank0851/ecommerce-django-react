@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  
+  pull_request:
+    branches:
+      - main  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+                 
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build Docker image
+      run: |
+        docker build -t mayankvishwakarma08/ecommerce-app:latest .
+
+    - name: Push Docker image
+      run: |
+        docker push mayankvishwakarma08/ecommerce-app:latest
+
+    - name: Deploy to EC2
+      uses: appleboy/scp-action@v0.1.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 8000
+        source: "."
+        target: "/home/ubuntu/ecommerce-django-react"  
+
+    - name: SSH to EC2 and run the Docker container
+      uses: appleboy/ssh-action@v0.1.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          cd /home/ubuntu/ecommerce-django-react
+          docker-compose down || true
+          docker-compose up -d --build
