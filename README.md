@@ -123,7 +123,7 @@ The proposed solution modernizes the current system by introducing containerizat
 ### Security Enhancements
 
 - **Updated Dependencies**: Updating outdated packages reduces vulnerabilities by 30%, based on common CVE reports.
-- **Role-Based Access Control**: Implementing RBAC improves security, minimizing the risk of unauthorized access by 20%.
+- **Role-Based Access Control**: Implementing CRPF improves security, minimizing the risk of unauthorized access by 20%.
 - **Encrypted Environment Variables**: Securing sensitive data (like DB credentials) ensures 100% protection against exposure.
 
 ### DevOps & Monitoring
