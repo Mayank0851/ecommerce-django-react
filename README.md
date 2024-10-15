@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-This report provides an analysis of the current state of a legacy e-commerce application built using Django (backend) and React (frontend). The goal is to address performance bottlenecks, security issues, and implement DevOps best practices, including containerization, CI/CD pipeline setup, Infrastructure as Code (IaaC).
+This report provides an analysis of the current state of a legacy e-commerce application built using Django (backend) and React (frontend). The goal is to address performance, security issues, and implement DevOps best practices, including containerization, CI/CD pipeline setup.
 
 ### Objectives
 
@@ -28,11 +28,9 @@ This report provides an analysis of the current state of a legacy e-commerce app
 - No clear Infrastructure as Code (IaC).
 - No consistent monitoring or logging setup.
 
----
-
 ## 3. Problems Identified in the Current System
 
-### Performance Bottlenecks
+### Performance
 
 1. **Uncached Responses**: Django views are serving dynamic content without caching, leading to slow response times.
 
@@ -55,8 +53,6 @@ This report provides an analysis of the current state of a legacy e-commerce app
 - No Centralized Logging: Limited visibility into system performance.
 - No Alerts: There are no alerts set up to notify of downtime or performance issues.
 
----
-
 ## 4. Scope of Improvements
 
 ### Key Areas for Improvement
@@ -66,12 +62,6 @@ This report provides an analysis of the current state of a legacy e-commerce app
   - Implement caching using Redis.
   - Optimize database queries with proper indexing.
   - Use load balancing to distribute traffic efficiently.
-
-- **Security**:
-
-  - Conduct a security audit and update packages.
-  - Implement role-based access control (RBAC) for sensitive sections.
-  - Store sensitive data securely in environment variables or AWS Secrets Manager.
 
 - **DevOps Best Practices**:
 
@@ -90,7 +80,7 @@ This report provides an analysis of the current state of a legacy e-commerce app
 
 ### Overview
 
-The proposed solution modernizes the current system by introducing containerization, CI/CD, security enhancements, and Infrastructure as Code (IaC), ensuring the application can scale effectively and be managed securely.
+The proposed solution modernizes the current system by introducing containerization, CI/CD, security enhancements, ensuring the application can scale effectively and be managed securely.
 
 ### Key Changes
 
@@ -98,8 +88,6 @@ The proposed solution modernizes the current system by introducing containerizat
 - **Database Optimization**: Indexing will be implemented in PostgreSQL to improve query performance.
 - **Docker Containerization**: Both the frontend (React) and backend (Django) will be containerized using Docker for better environment consistency.
 - **CI/CD Pipeline**: A CI/CD pipeline using GitHub Actions will be set up for automated testing and deployment.
-- **Infrastructure as Code (IaC)**: Terraform will manage the infrastructure, including EC2 instances, RDS databases, and S3 buckets for static assets.
-- **Monitoring & Logging**: Prometheus and Grafana will monitor system performance, while the ELK Stack will centralize logs and alert on key events.
 
 ---
 
@@ -109,8 +97,7 @@ The proposed solution modernizes the current system by introducing containerizat
 
 1. **Frontend**: React app served via NGINX, containerized using Docker.
 2. **Backend**: Django application, containerized and deployed via Docker.
-3. **Database**: PostgreSQL, hosted on AWS RDS, with improved indexing.
-4. **CI/CD Pipeline**: Automated build and deployment pipeline using GitHub Actions.
+3. **CI/CD Pipeline**: Automated build and deployment pipeline using GitHub Actions.
 
 ## 5. Results & Performance Improvements
 
@@ -124,9 +111,7 @@ The proposed solution modernizes the current system by introducing containerizat
 
 - **Updated Dependencies**: Updating outdated packages reduces vulnerabilities by 30%, based on common CVE reports.
 - **Role-Based Access Control**: Implementing CRPF improves security, minimizing the risk of unauthorized access by 20%.
-- **Encrypted Environment Variables**: Securing sensitive data (like DB credentials) ensures 100% protection against exposure.
 
 ### DevOps & Monitoring
 
 - **Automated CI/CD**: CI/CD ensures faster, more reliable deployments, reducing manual errors by 90%.
-- **Monitoring Alerts**: Real-time alerts allow quicker response to issues, reducing downtime by 15%.
