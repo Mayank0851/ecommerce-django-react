@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline for Localhost
 
 on:
   push:
@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
                  
     steps:
+    
     - name: Check out code
       uses: actions/checkout@v2
 
@@ -29,49 +30,4 @@ jobs:
     - name: Push Docker image
       run: |
         docker push mayankvishwakarma08/ecommerce-app:latest
-
-    - name: Deploy to EC2
-      uses: appleboy/scp-action@v0.1.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USER }}
-        key: ${{ secrets.EC2_SSH_KEY }}   
-        port: 22                          
-        source: "."
-        target: "/home/ubuntu/ecommerce-django-react"  
-        debug: true
-
-    - name: SSH to EC2 and run Docker commands
-      uses: appleboy/ssh-action@v0.1.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USER }}
-        key: ${{ secrets.EC2_SSH_KEY }}   
-        port: 22                          
-        script: |
-          set -x
-          # Check if Docker is installed and install if not
-          if ! command -v docker &> /dev/null; then
-            echo "Docker not found. Installing..."
-            sudo apt-get update
-            sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-            echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
-            sudo apt-get update
-            sudo apt-get install -y docker-ce
-            sudo systemctl enable docker
-            sudo systemctl start docker
-          fi
-
-          # Check if Docker Compose is installed and install if not
-          if ! command -v docker-compose &> /dev/null; then
-            echo "Docker Compose not found. Installing..."
-            sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-            sudo chmod +x /usr/local/bin/docker-compose
-          fi
-
-          # Navigate to the project directory and run Docker commands
-          cd /home/ubuntu/ecommerce-django-react
-          docker-compose down || true
-          docker-compose up -d --build
 
